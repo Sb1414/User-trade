@@ -79,6 +79,11 @@ namespace KalkamanovaFinal.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+        
+        [Required]
+        [RegularExpression(@"^[a-zA-Z0-9]+\\[a-zA-Z0-9]+\.[a-zA-Z0-9]+$", ErrorMessage = "Invalid UserDomainName format.")]
+        [Display(Name = "User Domain Name")]
+        public string UserDomainName { get; set; }
     }
 
     public class ResetPasswordViewModel
@@ -98,6 +103,11 @@ namespace KalkamanovaFinal.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+        
+        [Required]
+        [RegularExpression(@"^[a-zA-Z0-9]+\\[a-zA-Z0-9]+\.[a-zA-Z0-9]+$", ErrorMessage = "Invalid UserDomainName format.")]
+        [Display(Name = "User Domain Name")]
+        public string UserDomainName { get; set; }
 
         public string Code { get; set; }
     }

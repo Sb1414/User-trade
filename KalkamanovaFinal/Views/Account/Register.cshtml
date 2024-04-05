@@ -19,6 +19,13 @@
             </div>
         </div>
         <div class="row">
+            @Html.LabelFor(m => m.UserDomainName, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.UserDomainName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.UserDomainName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
             @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
                 @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
