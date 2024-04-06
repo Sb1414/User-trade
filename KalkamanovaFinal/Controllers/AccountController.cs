@@ -24,15 +24,7 @@ namespace KalkamanovaFinal.Controllers
         {
             _context = new ApplicationDbContext();
         }
-
-        // GET: /Account/GetUsers
-        [System.Web.Mvc.HttpGet]
-        public ContentResult GetUsers()
-        {
-            var users = _context.Users.ToList();
-            return Content(JsonConvert.SerializeObject(users), "application/json");
-        }
-
+        
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
@@ -61,6 +53,14 @@ namespace KalkamanovaFinal.Controllers
             {
                 _userManager = value;
             }
+        }
+        
+        // GET: /Account/GetUsers
+        [System.Web.Mvc.HttpGet]
+        public ContentResult GetUsers()
+        {
+            var users = _context.Users.ToList();
+            return Content(JsonConvert.SerializeObject(users), "application/json");
         }
 
         [System.Web.Mvc.HttpGet]

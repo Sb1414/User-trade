@@ -62,5 +62,49 @@ namespace KalkamanovaFinal.Controllers
 
             return View(trade);
         }
+        
+        // TradeViewController.cs
+        [System.Web.Mvc.HttpGet]
+        public ActionResult GetLatestTrade()
+        {
+            var userId = User.Identity.GetUserId();
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_context));
+            var appUser = userManager.FindById(userId);
+
+            if (appUser == null)
+            {
+                ViewBag.ErrorMessage = "User not found";
+                return View("TradeView");
+            }
+
+            var appUserId = Guid.Parse(appUser.Id);
+            var userData = _context.Data.Where(d => d.UserId == appUserId).ToList();
+
+            Trade latestTrade = null;
+
+            foreach (var data in userData)
+            {
+                var trade = JsonConvert.DeserializeObject<Trade>(data.Entity);
+
+                if (latestTrade == null || trade.CreatedAt > latestTrade.CreatedAt)
+                {
+                    latestTrade = trade;
+                }
+            }
+
+            if (latestTrade == null)
+            {
+                ViewBag.ErrorMessage = "Latest Trade not found";
+                return View("TradeView");
+            }
+
+            var result = new TradeResult
+            {
+                Date = latestTrade.CreatedAt.ToString("dd-MM-yyyy:HH:mm:ss"),
+                Amount = latestTrade.Amount
+            };
+
+            return View(result);
+        }
     }
 }
