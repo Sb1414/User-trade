@@ -92,22 +92,28 @@ namespace KalkamanovaFinal.Controllers
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            // Получаем пользователя по электронной почте
+            var user = await UserManager.FindByEmailAsync(model.Email);
+            if (user == null)
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                ModelState.AddModelError("", "Invalid login attempt.");
+                return View(model);
             }
+
+            // Хэшируем введенный пароль
+            var passwordHasher = new PasswordHasher();
+            var hashedPassword = passwordHasher.HashPassword(model.Password);
+
+            // Сравниваем хэшированный введенный пароль с хэшированным паролем из базы данных
+            if (passwordHasher.VerifyHashedPassword(user.PasswordHash, hashedPassword) == PasswordVerificationResult.Failed)
+            {
+                ModelState.AddModelError("", "Invalid login attempt.");
+                return View(model);
+            }
+
+            // Если пароли совпадают, выполняем вход
+            await SignInManager.SignInAsync(user, model.RememberMe, false);
+            return RedirectToLocal(returnUrl);
         }
 
         //
