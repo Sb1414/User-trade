@@ -10,6 +10,7 @@ using System.Security.Claims;
 using System.Linq;
 using KalkamanovaFinal.Models;
 using Microsoft.AspNet.Identity.Owin;
+using Newtonsoft.Json;
 
 namespace KalkamanovaFinal.Controllers
 {
@@ -19,6 +20,7 @@ namespace KalkamanovaFinal.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationDbContext _context;
+        private string UserEmail;
 
         public AccountApiController()
         {
@@ -108,13 +110,6 @@ namespace KalkamanovaFinal.Controllers
         public async Task<IHttpActionResult> Login(LoginModel model)
         {
             var user = await this.UserManager.FindByEmailAsync(model.Email);
-            {
-                var users = this.UserManager.Users;
-                foreach (var usera in users)
-                {
-                    Console.WriteLine(usera.UserName);
-                }
-            }
 
             if (user == null)
             {
@@ -128,13 +123,15 @@ namespace KalkamanovaFinal.Controllers
                 return this.Unauthorized();
             }
 
+            // Создание токена
             var identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
-            identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
+            identity.AddClaim(new Claim(ClaimTypes.Name, user.Id));
 
             var properties = new AuthenticationProperties();
             var ticket = new AuthenticationTicket(identity, properties);
 
             var accessToken = Startup.OAuthOptions.AccessTokenFormat.Protect(ticket);
+
             return this.Ok(new { AccessToken = accessToken });
         }
 
@@ -144,6 +141,90 @@ namespace KalkamanovaFinal.Controllers
         {
             HttpContext.Current.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ExternalBearer);
             return this.Ok();
+        }
+        
+        [System.Web.Http.Route("CreateTrade")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> CreateTrade(Trade trade)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            trade.CreatedAt = DateTime.Now;
+
+            // Получение идентификатора пользователя из токена
+            var userId = User.Identity.GetUserId();
+
+            var appUser = await UserManager.FindByIdAsync(userId);
+
+            if (appUser == null)
+            {
+                return NotFound();
+            }
+
+            var appUserId = Guid.Parse(appUser.Id);
+            var user = _context.Users.FirstOrDefault(u => u.Id == appUserId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var data = new Data
+            {
+                User = user,
+                UserId = user.Id,
+                Entity = JsonConvert.SerializeObject(trade)
+            };
+
+            _context.Data.Add(data);
+            await _context.SaveChangesAsync();
+
+            return Ok(trade);
+        }
+        
+        [System.Web.Http.Route("GetLatestTrade")]
+        [System.Web.Http.HttpGet]
+        public async Task<IHttpActionResult> GetLatestTrade()
+        {
+            var userId = User.Identity.GetUserId();
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_context));
+            var appUser = userManager.FindById(userId);
+
+            if (appUser == null)
+            {
+                return NotFound();
+            }
+
+            var appUserId = Guid.Parse(appUser.Id);
+            var userData = _context.Data.Where(d => d.UserId == appUserId).ToList();
+
+            Trade latestTrade = null;
+
+            foreach (var data in userData)
+            {
+                var trade = JsonConvert.DeserializeObject<Trade>(data.Entity);
+
+                if (latestTrade == null || trade.CreatedAt > latestTrade.CreatedAt)
+                {
+                    latestTrade = trade;
+                }
+            }
+
+            if (latestTrade == null)
+            {
+                return NotFound();
+            }
+
+            var result = new TradeResult
+            {
+                Date = latestTrade.CreatedAt.ToString("dd-MM-yyyy:HH:mm:ss"),
+                Amount = latestTrade.Amount
+            };
+
+            return Ok(result);
         }
 
         public class LoginModel
