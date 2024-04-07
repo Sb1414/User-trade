@@ -9,19 +9,35 @@ using Newtonsoft.Json;
 
 namespace KalkamanovaFinal.Controllers
 {
+    /// <summary>
+    /// Контроллер для отображения и создания сделок.
+    /// </summary>
     public class TradeViewController : Controller
     {
+        /// <summary>
+        /// Контекст базы данных.
+        /// </summary>
         private ApplicationDbContext _context;
 
+        /// <summary>
+        /// Конструктор контроллера.
+        /// </summary>
         public TradeViewController()
         {
             _context = new ApplicationDbContext();
         }
+        
+        /// <summary>
+        /// Отображает страницу для создания новой сделки.
+        /// </summary>
         public ActionResult CreateTrade()
         {
             return View();
         }
 
+        /// <summary>
+        /// Обрабатывает запрос на создание новой сделки.
+        /// </summary>
         [System.Web.Mvc.HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateTrade(Trade trade)
@@ -63,7 +79,9 @@ namespace KalkamanovaFinal.Controllers
             return View(trade);
         }
         
-        // TradeViewController.cs
+        /// <summary>
+        /// Отображает страницу с последней сделкой пользователя.
+        /// </summary>
         [System.Web.Mvc.HttpGet]
         public ActionResult GetLatestTrade()
         {

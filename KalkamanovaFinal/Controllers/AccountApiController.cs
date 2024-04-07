@@ -14,19 +14,43 @@ using Newtonsoft.Json;
 
 namespace KalkamanovaFinal.Controllers
 {
+    /// <summary>
+    /// Контроллер API для управления учетными записями пользователей.
+    /// </summary>
     [RoutePrefix("api/Account")]
     public class AccountApiController : ApiController
     {
+        /// <summary>
+        /// Менеджер для входа пользователя.
+        /// </summary>
         private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
-        private ApplicationDbContext _context;
-        private string UserEmail;
 
+        /// <summary>
+        /// Менеджер для управления пользователями.
+        /// </summary>
+        private ApplicationUserManager _userManager;
+
+        /// <summary>
+        /// Контекст базы данных.
+        /// </summary>
+        private ApplicationDbContext _context;
+
+        /// <summary>
+        /// Электронная почта пользователя.
+        /// </summary>
+        private string _userEmail;
+
+        /// <summary>
+        /// Конструктор по умолчанию.
+        /// </summary>
         public AccountApiController()
         {
             _context = new ApplicationDbContext();
         }
         
+        /// <summary>
+        /// Менеджер для входа пользователя.
+        /// </summary>
         public ApplicationSignInManager SignInManager
         {
             get
@@ -39,6 +63,9 @@ namespace KalkamanovaFinal.Controllers
             }
         }
 
+        /// <summary>
+        /// Менеджер для управления пользователями.
+        /// </summary>
         public ApplicationUserManager UserManager
         {
             get
@@ -51,6 +78,9 @@ namespace KalkamanovaFinal.Controllers
             }
         }
 
+        /// <summary>
+        /// Регистрация нового пользователя.
+        /// </summary>
         [HttpPost]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterViewModel model)
@@ -77,6 +107,9 @@ namespace KalkamanovaFinal.Controllers
             return Ok(new { Message = "Registration successful", User = user });
         }
 
+        /// <summary>
+        /// Обработка результатов ошибки Identity.
+        /// </summary>
         private IHttpActionResult GetErrorResult(IdentityResult result)
         {
             if (result == null)
@@ -105,6 +138,9 @@ namespace KalkamanovaFinal.Controllers
             return null;
         }
 
+        /// <summary>
+        /// Вход пользователя.
+        /// </summary>
         [HttpPost]
         [Route("Login")]
         public async Task<IHttpActionResult> Login(LoginModel model)
@@ -123,7 +159,6 @@ namespace KalkamanovaFinal.Controllers
                 return this.Unauthorized();
             }
 
-            // Создание токена
             var identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
             identity.AddClaim(new Claim(ClaimTypes.Name, user.Id));
 
@@ -135,6 +170,9 @@ namespace KalkamanovaFinal.Controllers
             return this.Ok(new { AccessToken = accessToken });
         }
 
+        /// <summary>
+        /// Выход пользователя.
+        /// </summary>
         [HttpPost]
         [Route("Logout")]
         public IHttpActionResult Logout()
@@ -143,6 +181,9 @@ namespace KalkamanovaFinal.Controllers
             return this.Ok();
         }
         
+        /// <summary>
+        /// Создание новой сделки.
+        /// </summary>
         [System.Web.Http.Route("CreateTrade")]
         [System.Web.Http.HttpPost]
         public async Task<IHttpActionResult> CreateTrade(Trade trade)
@@ -154,7 +195,6 @@ namespace KalkamanovaFinal.Controllers
 
             trade.CreatedAt = DateTime.Now;
 
-            // Получение идентификатора пользователя из токена
             var userId = User.Identity.GetUserId();
             
             if (userId == null)
@@ -206,6 +246,9 @@ namespace KalkamanovaFinal.Controllers
             return Ok(trade);
         }
         
+        /// <summary>
+        /// Получение последней сделки пользователя.
+        /// </summary>
         [System.Web.Http.Route("GetLatestTrade")]
         [System.Web.Http.HttpGet]
         public async Task<IHttpActionResult> GetLatestTrade()
@@ -270,11 +313,26 @@ namespace KalkamanovaFinal.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Модель для входа пользователя.
+        /// </summary>
         public class LoginModel
         {
+            /// <summary>
+            /// Адрес электронной почты пользователя.
+            /// </summary>
             public string Email { get; set; }
+
+            /// <summary>
+            /// Пароль пользователя.
+            /// </summary>
             public string Password { get; set; }
+
+            /// <summary>
+            /// Флаг для запоминания пользователя.
+            /// </summary>
             public bool RememberMe { get; set; }
         }
+
     }
 }
