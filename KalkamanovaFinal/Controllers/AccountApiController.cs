@@ -156,6 +156,27 @@ namespace KalkamanovaFinal.Controllers
 
             // Получение идентификатора пользователя из токена
             var userId = User.Identity.GetUserId();
+            
+            if (userId == null)
+            {
+                if (Request.Headers.Authorization != null && Request.Headers.Authorization.Scheme == "Bearer")
+                {
+                    var accessToken = Request.Headers.Authorization.Parameter;
+                    var ticket = Startup.OAuthOptions.AccessTokenFormat.Unprotect(accessToken);
+                    if (ticket != null)
+                    {
+                        var claim = ticket.Identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+                        if (claim != null)
+                        {
+                            userId = claim.Value;
+                        }
+                    }
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+            }
 
             var appUser = await UserManager.FindByIdAsync(userId);
 
@@ -190,6 +211,28 @@ namespace KalkamanovaFinal.Controllers
         public async Task<IHttpActionResult> GetLatestTrade()
         {
             var userId = User.Identity.GetUserId();
+            
+            if (userId == null)
+            {
+                if (Request.Headers.Authorization != null && Request.Headers.Authorization.Scheme == "Bearer")
+                {
+                    var accessToken = Request.Headers.Authorization.Parameter;
+                    var ticket = Startup.OAuthOptions.AccessTokenFormat.Unprotect(accessToken);
+                    if (ticket != null)
+                    {
+                        var claim = ticket.Identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+                        if (claim != null)
+                        {
+                            userId = claim.Value;
+                        }
+                    }
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+            }
+            
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_context));
             var appUser = userManager.FindById(userId);
 
