@@ -292,3 +292,6 @@ C:\Users\Sabina.Kalkamanova\Downloads\Telegram Desktop\auth\User-trade\Kalkamano
 C:\Users\Sabina.Kalkamanova\Downloads\Telegram Desktop\auth\User-trade\KalkamanovaFinal\obj\Debug\KalkamanovaFinal.csproj.CopyComplete
 C:\Users\Sabina.Kalkamanova\Downloads\Telegram Desktop\auth\User-trade\KalkamanovaFinal\obj\Debug\KalkamanovaFinal.dll
 C:\Users\Sabina.Kalkamanova\Downloads\Telegram Desktop\auth\User-trade\KalkamanovaFinal\obj\Debug\KalkamanovaFinal.pdb
+C:\Users\Sabina.Kalkamanova\Downloads\Telegram Desktop\auth\User-trade\KalkamanovaFinal\bin\System.Web.Cors.dll
+C:\Users\Sabina.Kalkamanova\Downloads\Telegram Desktop\auth\User-trade\KalkamanovaFinal\bin\System.Web.Http.Cors.dll
+C:\Users\Sabina.Kalkamanova\Downloads\Telegram Desktop\auth\User-trade\KalkamanovaFinal\bin\System.Web.Http.Cors.xml

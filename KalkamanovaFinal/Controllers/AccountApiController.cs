@@ -8,6 +8,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using System.Security.Claims;
 using System.Linq;
+using System.Web.Http.Cors;
 using KalkamanovaFinal.Models;
 using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json;
@@ -18,6 +19,7 @@ namespace KalkamanovaFinal.Controllers
     /// Контроллер API для управления учетными записями пользователей.
     /// </summary>
     [RoutePrefix("api/Account")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class AccountApiController : ApiController
     {
         /// <summary>
@@ -174,10 +176,12 @@ namespace KalkamanovaFinal.Controllers
         /// Выход пользователя.
         /// </summary>
         [HttpPost]
-        [Route("Logout")]
-        public IHttpActionResult Logout()
+        [Route("LogOff")]
+        public IHttpActionResult LogOff()
         {
-            HttpContext.Current.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ExternalBearer);
+            var owinContext = HttpContext.Current.GetOwinContext();
+            var authManager = owinContext.Authentication;
+            authManager.SignOut(OAuthDefaults.AuthenticationType);
             return this.Ok();
         }
         
