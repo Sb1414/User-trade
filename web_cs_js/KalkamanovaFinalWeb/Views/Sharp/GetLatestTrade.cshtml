@@ -1,0 +1,16 @@
+@model KalkamanovaFinalWeb.Models.TradeResult
+
+
+@if (Model == null)
+{
+    <h2>Trades not found</h2>
+}
+else
+{
+    <h2>Latest Trade</h2>
+
+    <p>Date: @Model.Date</p>
+    <p>Amount: @Model.Amount</p>
+}
+
+@Html.ActionLink("Back to Home", "Index", "Home", null, new { @class = "btn btn-primary" })

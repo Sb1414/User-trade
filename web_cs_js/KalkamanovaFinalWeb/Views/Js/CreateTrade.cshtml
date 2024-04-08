@@ -1,0 +1,40 @@
+@{
+    ViewBag.Title = "CreateTrade";
+}
+
+<h2>Create Trade</h2>
+
+<div id="message"></div>
+
+<form id="createTradeForm">
+    <label for="amount">Amount:</label><br>
+    <input type="number" id="amount" name="amount"><br>
+    <input type="submit" value="Submit">
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $("#createTradeForm").submit(function(e) {
+        e.preventDefault();
+
+        var form = $(this);
+        var url = 'http://localhost:62130/api/Account/CreateTrade';
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            data: form.serialize(),
+            success: function(data)
+            {
+                $("#message").html("<p>Trade created successfully!</p>");
+            },
+            error: function(data)
+            {
+                $("#message").html("<p>Error occurred during trade creation.</p>");
+            }
+        });
+    });
+</script>
