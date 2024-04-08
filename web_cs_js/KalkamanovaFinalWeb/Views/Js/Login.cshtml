@@ -1,0 +1,42 @@
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+<div id="message"></div>
+
+<form id="loginForm">
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email"><br>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password"><br>
+    <label for="rememberMe">Remember Me:</label><br>
+    <input type="checkbox" id="rememberMe" name="rememberMe"><br>
+    <input type="submit" value="Submit">
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $("#loginForm").submit(function(e) {
+        e.preventDefault();
+
+        var form = $(this);
+        var url = 'http://localhost:62130/api/Account/Login';
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(),
+            success: function(data)
+            {
+                localStorage.setItem('token', data.AccessToken);
+                $("#message").html("<p>Login successful!</p>");
+            },
+            error: function(data)
+            {
+                $("#message").html("<p>Error occurred during login.</p>");
+            }
+        });
+    });
+</script>

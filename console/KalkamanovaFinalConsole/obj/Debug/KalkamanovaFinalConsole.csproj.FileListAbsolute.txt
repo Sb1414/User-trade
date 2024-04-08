@@ -1,0 +1,9 @@
+C:\Users\Sabina.Kalkamanova\Desktop\KalkamanovaFinalConsole\KalkamanovaFinalConsole\bin\Debug\KalkamanovaFinalConsole.exe
+C:\Users\Sabina.Kalkamanova\Desktop\KalkamanovaFinalConsole\KalkamanovaFinalConsole\bin\Debug\KalkamanovaFinalConsole.pdb
+C:\Users\Sabina.Kalkamanova\Desktop\KalkamanovaFinalConsole\KalkamanovaFinalConsole\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Sabina.Kalkamanova\Desktop\KalkamanovaFinalConsole\KalkamanovaFinalConsole\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Sabina.Kalkamanova\Desktop\KalkamanovaFinalConsole\KalkamanovaFinalConsole\obj\Debug\KalkamanovaFinalConsole.csproj.AssemblyReference.cache
+C:\Users\Sabina.Kalkamanova\Desktop\KalkamanovaFinalConsole\KalkamanovaFinalConsole\obj\Debug\KalkamanovaFinalConsole.csproj.CoreCompileInputs.cache
+C:\Users\Sabina.Kalkamanova\Desktop\KalkamanovaFinalConsole\KalkamanovaFinalConsole\obj\Debug\KalkamanovaFinalConsole.csproj.CopyComplete
+C:\Users\Sabina.Kalkamanova\Desktop\KalkamanovaFinalConsole\KalkamanovaFinalConsole\obj\Debug\KalkamanovaFinalConsole.exe
+C:\Users\Sabina.Kalkamanova\Desktop\KalkamanovaFinalConsole\KalkamanovaFinalConsole\obj\Debug\KalkamanovaFinalConsole.pdb

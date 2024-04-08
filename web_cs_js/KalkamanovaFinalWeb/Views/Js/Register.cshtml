@@ -1,0 +1,44 @@
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Register</h2>
+
+<div id="message"></div>
+
+<form id="registerForm">
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email"><br>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password"><br>
+    <label for="confirmPassword">Confirm Password:</label><br>
+    <input type="password" id="confirmPassword" name="confirmPassword"><br>
+    <label for="userDomainName">User Domain Name:</label><br>
+    <input type="text" id="userDomainName" name="userDomainName"><br>
+    <input type="submit" value="Submit">
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $("#registerForm").submit(function(e) {
+        e.preventDefault();
+
+        var form = $(this);
+        var url = 'http://localhost:62130/api/Account/Register';
+
+        console.log(form.serialize());
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(),
+            success: function(data)
+            {
+                $("#message").html("<p>Registration successful!</p>");
+            },
+            error: function(data)
+            {
+                $("#message").html("<p>Error occurred during registration.</p>");
+            }
+        });
+    });
+</script>

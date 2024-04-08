@@ -1,0 +1,33 @@
+@{
+    ViewBag.Title = "LogOff";
+}
+
+<h2>Log Off</h2>
+
+<div id="message"></div>
+
+<button id="logOffButton">Log Off</button>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $("#logOffButton").click(function() {
+        var url = 'http://localhost:62130/api/Account/LogOff';
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            success: function(data)
+            {
+                $("#message").html("<p>Logged off successfully!</p>");
+                localStorage.removeItem('token');
+            },
+            error: function(data)
+            {
+                $("#message").html("<p>Error occurred during log off.</p>");
+            }
+        });
+    });
+</script>
