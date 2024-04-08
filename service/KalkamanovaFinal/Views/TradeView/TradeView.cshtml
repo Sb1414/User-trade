@@ -1,0 +1,14 @@
+@{
+    ViewBag.Title = "Trade View";
+}
+
+<h2>Trade View</h2>
+
+@if (!String.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @ViewBag.ErrorMessage
+    </div>
+    @Html.ActionLink("Back to Home", "Index", "Home", null, new { @class = "btn btn-primary" })
+
+}

@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+<div class="container body-content">
+    <div style="display: flex; justify-content: space-around">
+        <div>
+            <h1>JS:</h1>
+            <ul>
+                <li><a href="@Url.Action("Register", "Js")">Register</a></li>
+                <li><a href="@Url.Action("Login", "Js")">Login</a></li>
+                <li><a href="@Url.Action("CreateTrade", "Js")">Create Trade</a></li>
+                <li><a href="@Url.Action("GetLatestTrade", "Js")">Get Latest Trade</a></li>
+                <li><a href="@Url.Action("LogOff", "Js")">Log Off</a></li>
+            </ul>
+        </div>
+        
+        <div>
+            <h1>C#:</h1>
+            <ul>
+                <li><a href="@Url.Action("Register", "Sharp")">Register</a></li>
+                <li><a href="@Url.Action("Login", "Sharp")">Login</a></li>
+                <li><a href="@Url.Action("CreateTrade", "Sharp")">Create Trade</a></li>
+                <li><a href="@Url.Action("GetLatestTrade", "Sharp")">Get Latest Trade</a></li>
+                <li><a href="@Url.Action("LogOff", "Sharp")">Log Off</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    @RenderBody()
+</div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

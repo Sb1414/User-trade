@@ -1,0 +1,32 @@
+@{
+    ViewBag.Title = "GetLatestTrade";
+}
+
+<h2>Get Latest Trade</h2>
+
+<div id="message"></div>
+
+<button id="getLatestTradeButton">Get Latest Trade</button>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $("#getLatestTradeButton").click(function() {
+        var url = 'http://localhost:62130/api/Account/GetLatestTrade';
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            success: function(data)
+            {
+                $("#message").html("<p>Latest trade: " + JSON.stringify(data) + "</p>");
+            },
+            error: function(data)
+            {
+                $("#message").html("<p>Error occurred while getting latest trade.</p>");
+            }
+        });
+    });
+</script>

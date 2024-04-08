@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<main>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="row">
+            <section class="col-md-4" aria-labelledby="userInfoTitle">
+                <h2 id="userInfoTitle">User Information</h2>
+                <p>Email: @User.Identity.Name</p>
+                
+            </section>
+        </div>
+    }
+    <div class="row">
+        @if (User.Identity.IsAuthenticated)
+        {
+            @Html.ActionLink("Create Trade", "CreateTrade", "TradeView", null, new { @class = "btn btn-primary mb-2" })
+            @Html.ActionLink("Get Latest Trade", "GetLatestTrade", "TradeView", null, new { @class = "btn btn-primary" })
+        }
+    </div>
+</main>
